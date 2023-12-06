@@ -237,20 +237,6 @@ jobs:
             -DGIT_VERSION=${{ needs.version.outputs.jitsi_version_git }}
           cmake --build cmake-build-${{ matrix.arch.actions }} --config Release --target install
 
-      - name: Build Outlook COM Server natives for opposite arch (${{ matrix.arch.cmake_opposite_arch }})
-        env:
-          JAVA_HOME: ${{ steps.install_java.outputs.path }}
-        shell: cmd
-        run: |
-          cd %GITHUB_WORKSPACE%\native
-          cmake -B cmake-build-${{ matrix.arch.cmake_opposite_arch }} -A ${{ matrix.arch.cmake_opposite_arch }} ^
-            -DMAIN_VERSION=${{ needs.version.outputs.jitsi_version_full }} ^
-            -DGIT_VERSION=${{ needs.version.outputs.jitsi_version_git }}
-          cmake --build cmake-build-${{ matrix.arch.cmake_opposite_arch }} --config Release --target install.jmsoutlookaddrbookcomserver
-          cd %GITHUB_WORKSPACE%
-          copy lib\native\win32-x86-64\jmsoutlookaddrbookcomserver64.exe lib\native\win32-x86\jmsoutlookaddrbookcomserver64.exe
-          copy lib\native\win32-x86\jmsoutlookaddrbookcomserver32.exe lib\native\win32-x86-64\jmsoutlookaddrbookcomserver32.exe
-
       - name: Upload CMake logs on failure
         if: ${{ failure() }}
         run: Compress-Archive -Path $Env:GITHUB_WORKSPACE/native/windows/src/native/cmake-build-${{ matrix.arch.actions }} -DestinationPath $Env:GITHUB_WORKSPACE/debug-logs.zip
