@@ -84,6 +84,11 @@ if (WIN32)
     string(JOIN "-" VERSION_LONG ${VERSION_SHORT} ${VERSION_SUFFIX})
     string(JOIN "+" VERSION_FULL ${VERSION_LONG} ${VERSION_HASH})
 
+    set(VERSION_SHORT "2.14.")
+    set(JOIN "-" VERSION_LONG ${VERSION_SHORT} "20231206121212")
+    set(JOIN "+" VERSION_FULL ${VERSION_LONG} "123456")
+
+
     set(PRODUCTNAME ${GRADLE_application.name})
     set(PRODUCTNAME_EXE "${GRADLE_application.name}.exe")
     set(PRODUCTCOPYRIGHT ${GRADLE_application.org})
