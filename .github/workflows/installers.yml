@@ -248,10 +248,6 @@ jobs:
         with:
           path: target
 
-      - name: Pack all debs to avoid GitHub filename mangling
-        run: |
-          tar -cvf debian-releases.tar target/{debian-*,ubuntu-*}/*
-
       - name: Create release
         uses: ncipollo/release-action@a2e71bdd4e7dab70ca26a852f29600c98b33153e
         with:
