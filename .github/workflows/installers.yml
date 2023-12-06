@@ -237,6 +237,7 @@ jobs:
             -DGIT_VERSION=${{ needs.version.outputs.jitsi_version_git }}
           cmake --build cmake-build-${{ matrix.arch.actions }} --config Release --target install
 
+
       - name: Upload CMake logs on failure
         if: ${{ failure() }}
         run: Compress-Archive -Path $Env:GITHUB_WORKSPACE/native/windows/src/native/cmake-build-${{ matrix.arch.actions }} -DestinationPath $Env:GITHUB_WORKSPACE/debug-logs.zip
@@ -262,7 +263,7 @@ jobs:
         shell: bash
         run: |
           cd $GITHUB_WORKSPACE/resources/install
-          ./gradlew --no-daemon --stacktrace windowsZip signMsi -Papplication.target=${{ matrix.arch.java }} -Pversion=2.14.0 -PgitVersion=2.14.0
+          ./gradlew --no-daemon --stacktrace windowsZip signMsi -Papplication.target=${{ matrix.arch.java }} -Pversion=${{ needs.version.outputs.jitsi_version_full }} -PgitVersion=${{ needs.version.outputs.jitsi_version_git }}
 
       - name: Upload msi
         uses: actions/upload-artifact@v3
