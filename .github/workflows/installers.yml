@@ -263,7 +263,7 @@ jobs:
         shell: bash
         run: |
           cd $GITHUB_WORKSPACE/resources/install
-          ./gradlew --no-daemon --stacktrace windowsZip signMsi -Papplication.target=${{ matrix.arch.java }} -Pversion=${{ needs.version.outputs.jitsi_version_full }} -PgitVersion=${{ needs.version.outputs.jitsi_version_git }}
+          ./gradlew --no-daemon --stacktrace windowsZip signMsi -Papplication.target=${{ matrix.arch.java }} -Pversion=2.14.1.0 -PgitVersion=2.14.1.0
 
       - name: Upload msi
         uses: actions/upload-artifact@v3
