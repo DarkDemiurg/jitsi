@@ -2133,15 +2133,15 @@ public class ProtocolProviderServiceSipImpl
             try
             {
                 List<String> userAgentTokens = new LinkedList<String>();
+                userAgentTokens.add("company");
+                //Version ver =
+                //        SipActivator.getVersionService().getCurrentVersion();
 
-                Version ver =
-                        SipActivator.getVersionService().getCurrentVersion();
+                //userAgentTokens.add(ver.getApplicationName());
+                //userAgentTokens.add(ver.toString());
 
-                userAgentTokens.add(ver.getApplicationName());
-                userAgentTokens.add(ver.toString());
-
-                String osName = System.getProperty("os.name");
-                userAgentTokens.add(osName);
+                //String osName = System.getProperty("os.name");
+                //userAgentTokens.add(osName);
 
                 userAgentHeader
                     = this.headerFactory.createUserAgentHeader(userAgentTokens);

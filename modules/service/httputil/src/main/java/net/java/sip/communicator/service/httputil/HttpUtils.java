@@ -429,9 +429,11 @@ public class HttpUtils
             credentialsProvider.compareAndSet(null, newCredentialsProvider);
         }
 
-        String userAgent = System.getProperty("sip-communicator.application.name")
-            + "/"
-            + System.getProperty("sip-communicator.version");
+//        String userAgent = System.getProperty("sip-communicator.application.name")
+//            + "/"
+//            + System.getProperty("sip-communicator.version");
+
+        String userAgent = "company");
 
         return HttpClientBuilder.create()
             .setUserAgent(userAgent)
