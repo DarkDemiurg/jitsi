@@ -56,31 +56,6 @@ jobs:
         id: parse
         run: resources/version.sh
 
-  javah:
-    name: Compile Java for native headers
-    runs-on: ubuntu-latest
-    needs:
-      - version
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.INSTALLER_JAVA_VERSION }}
-          distribution: temurin
-          cache: maven
-
-      - name: Compile
-        run: mvn -B compile
-
-      - name: Upload JNI headers
-        uses: actions/upload-artifact@v3
-        with:
-          name: javah
-          path: target/native
-
   wix:
     name: Windows ${{ matrix.arch.actions }}
     runs-on: windows-latest
