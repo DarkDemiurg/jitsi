@@ -166,78 +166,12 @@ jobs:
             resources/install/build/install/wix/jitsi-*.msi
             resources/install/build/distributions/jitsi-*.zip
 
-  mac:
-    runs-on: macos-latest
-    needs:
-      - version
-      - javah
-    strategy:
-      fail-fast: false
-      matrix:
-        arch:
-          - x64
-          #- aarch64
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Get JNI headers
-        uses: actions/download-artifact@v3
-        with:
-          name: javah
-          path: target/native
-
-      - name: Set up Java (${{ matrix.arch }})
-        id: install_java
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.INSTALLER_JAVA_VERSION }}
-          distribution: temurin
-          architecture: ${{ matrix.arch }}
-
-      - name: Build natives
-        run: resources/mac-cmake.sh ${{ steps.install_java.outputs.path }} ${{ matrix.arch }}
-
-      - name: Set up Java (Host)
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.INSTALLER_JAVA_VERSION }}
-          distribution: temurin
-          cache: maven
-
-      - name: Package Java
-        run: mvn -B -DskipTests -Drevision=${{ needs.version.outputs.jitsi_version_full }} package
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Verify Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
-
-      - name: Generate dmg
-        run: |
-          cd $GITHUB_WORKSPACE/resources/install
-          ./gradlew --no-daemon createDmg -Pversion=${{ needs.version.outputs.jitsi_version_full }} -PgitVersion=${{ needs.version.outputs.jitsi_version_git }}
-
-      - name: Upload dmg
-        uses: actions/upload-artifact@v3
-        with:
-          name: jitsi-mac-${{ matrix.arch }}
-          path: resources/install/build/install/jitsi-*-mac-*.dmg
 
   release:
     #if: github.ref == 'refs/heads/master'
     needs:
       - version
       - wix
-      - mac
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -251,7 +185,7 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@a2e71bdd4e7dab70ca26a852f29600c98b33153e
         with:
-          artifacts: "target/**/*.msi,target/**/jitsi-*-win-*.zip,target/**/*.dmg,debian-releases.tar"
+          artifacts: "target/**/*.msi,target/**/jitsi-*-win-*.zip"
           allowUpdates: true
           prerelease: true
           draft: true
