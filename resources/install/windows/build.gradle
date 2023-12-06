@@ -152,12 +152,12 @@ task wixLight(type: Exec, group: 'installer-wix', dependsOn: wixCandle) {
             '-ext', 'WixUtilExtension',
             '-cultures:en-us',
             '-loc', "${projectDir}/windows/wix/en-us.wxl",
-            '-out', "${wixRootDir}/jitsi-${versionShort}-win-${arch}.msi",
+            '-out', "${wixRootDir}/jitsi-2.14.1.0-win-${arch}.msi",
             "${wixTempDir}/*.wixobj"
 }
 
 task signMsi(group: 'installer-wix', dependsOn: wixLight) {
-    inputs.files("${wixRootDir}/jitsi-${versionShort}-win-${arch}.msi")
+    inputs.files("${wixRootDir}/jitsi-2.14.1.0-win-${arch}.msi")
     doLast {
         if (project.hasProperty('application.win.certfile')) {
             signFile inputs.files.singleFile
@@ -167,7 +167,7 @@ task signMsi(group: 'installer-wix', dependsOn: wixLight) {
 
 task windowsZip(type: Zip, group: 'installer-wix', dependsOn: signWixTarget) {
     archivesBaseName = "jitsi"
-    archiveVersion = versionShort
+    archiveVersion = "2.14.1.0"
     archiveClassifier = "win-${arch}"
     from wixTargetDir
 }
