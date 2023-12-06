@@ -234,8 +234,8 @@ jobs:
           cd %GITHUB_WORKSPACE%\native
           cmake -B cmake-build-${{ matrix.arch.actions }} -A ${{ matrix.arch.cmake }} ^
             -DMAIN_VERSION=${{ needs.version.outputs.jitsi_version_full }} ^
-            -DGIT_VERSION=${{ needs.version.outputs.jitsi_version_git }} ^
-          cmake --build cmake-build-${{ matrix.arch.actions }} --config Release
+            -DGIT_VERSION=${{ needs.version.outputs.jitsi_version_git }}
+          cmake --build cmake-build-${{ matrix.arch.actions }} --config Release --target install
 
       - name: Build Outlook COM Server natives for opposite arch (${{ matrix.arch.cmake_opposite_arch }})
         env:
@@ -245,8 +245,8 @@ jobs:
           cd %GITHUB_WORKSPACE%\native
           cmake -B cmake-build-${{ matrix.arch.cmake_opposite_arch }} -A ${{ matrix.arch.cmake_opposite_arch }} ^
             -DMAIN_VERSION=${{ needs.version.outputs.jitsi_version_full }} ^
-            -DGIT_VERSION=${{ needs.version.outputs.jitsi_version_git }} ^
-          cmake --build cmake-build-${{ matrix.arch.cmake_opposite_arch }} --config Release
+            -DGIT_VERSION=${{ needs.version.outputs.jitsi_version_git }}
+          cmake --build cmake-build-${{ matrix.arch.cmake_opposite_arch }} --config Release --target install.jmsoutlookaddrbookcomserver
           cd %GITHUB_WORKSPACE%
           copy lib\native\win32-x86-64\jmsoutlookaddrbookcomserver64.exe lib\native\win32-x86\jmsoutlookaddrbookcomserver64.exe
           copy lib\native\win32-x86\jmsoutlookaddrbookcomserver32.exe lib\native\win32-x86-64\jmsoutlookaddrbookcomserver32.exe
