@@ -433,7 +433,7 @@ public class HttpUtils
 //            + "/"
 //            + System.getProperty("sip-communicator.version");
 
-        String userAgent = "company");
+        String userAgent = "company";
 
         return HttpClientBuilder.create()
             .setUserAgent(userAgent)
