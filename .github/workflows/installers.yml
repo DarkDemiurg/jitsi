@@ -94,10 +94,6 @@ jobs:
           - { vendor: ubuntu, dist: focal }
         arch:
           - amd64
-        include: [
-          { dist: { vendor: debian, dist: bullseye }, arch: i386 },
-          { dist: { vendor: debian, dist: bookworm }, arch: i386 },
-        ]
 
     env:
       UBUNTUTOOLS_UBUNTU_MIRROR: http://azure.archive.ubuntu.com/ubuntu
