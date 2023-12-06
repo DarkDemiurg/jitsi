@@ -92,14 +92,8 @@ jobs:
       matrix:
         dist:
           - { vendor: ubuntu, dist: focal }
-          - { vendor: ubuntu, dist: jammy }
-          - { vendor: ubuntu, dist: lunar }
-          - { vendor: debian, dist: bullseye }
-          - { vendor: debian, dist: bookworm }
         arch:
           - amd64
-          - arm64
-          - ppc64el
         include: [
           { dist: { vendor: debian, dist: bullseye }, arch: i386 },
           { dist: { vendor: debian, dist: bookworm }, arch: i386 },
@@ -206,13 +200,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Private SDK Download
-        uses: actions/checkout@v3
-        with:
-          repository: jitsi/jitsi-3rdparty-nonredist
-          ssh-key: ${{ secrets.PRIVATE_SDK_KEY }}
-          path: build/private-sdk
-
       - name: Set up Java
         id: install_java
         uses: actions/setup-java@v3
@@ -248,8 +235,6 @@ jobs:
           cmake -B cmake-build-${{ matrix.arch.actions }} -A ${{ matrix.arch.cmake }} ^
             -DMAIN_VERSION=${{ needs.version.outputs.jitsi_version_full }} ^
             -DGIT_VERSION=${{ needs.version.outputs.jitsi_version_git }} ^
-            -DOCSDK_DIR=%GITHUB_WORKSPACE%\build\private-sdk\ocsdk2007 ^
-            -DMAPI_HEADERS_DIR=%GITHUB_WORKSPACE%\build\private-sdk\outlook2010mapi
           cmake --build cmake-build-${{ matrix.arch.actions }} --config Release --target install
 
       - name: Build Outlook COM Server natives for opposite arch (${{ matrix.arch.cmake_opposite_arch }})
